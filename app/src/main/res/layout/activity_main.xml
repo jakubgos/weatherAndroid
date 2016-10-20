@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/linerCalc"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:onClick="changeToLinear" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/relativeCalc"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:onClick="changeToRelative" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"/>
+</LinearLayout>

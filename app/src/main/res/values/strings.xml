@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">kalkulator</string>
+    <string name="linerCalc">Linear Layout</string>
+    <string name="relativeCalc">Relative Layout</string>
+    <string name="empty">empty</string>
+</resources>
+

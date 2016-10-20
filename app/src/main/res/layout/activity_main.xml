@@ -27,17 +27,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/empty"
+        android:text="@string/about"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:layout_margin="20dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="printAbout" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/empty"
+        android:text="@string/exit"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:layout_margin="20dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="doExit" />
 </LinearLayout>

@@ -15,7 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LinearCalcActivity"></activity>
+        <activity android:name=".LinearCalcActivity" />
+        <activity android:name=".RelativeCaclActivity"></activity>
     </application>
 
 </manifest>

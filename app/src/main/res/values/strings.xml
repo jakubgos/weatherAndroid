@@ -3,5 +3,7 @@
     <string name="linerCalc">Linear Layout</string>
     <string name="relativeCalc">Relative Layout</string>
     <string name="empty">empty</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
 </resources>
 

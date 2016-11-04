@@ -7,17 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainMenuFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainMenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MainMenuFragment extends Fragment implements View.OnClickListener {
+
+public class MainMenuFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
@@ -29,8 +23,20 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_menu, container, false);
+        Button connectButton = (Button) view.findViewById(R.id.button);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //callbackListener.connectToPI();
+                Log.d("...", "DZIAL !!");
+                mListener.onFragmentInteraction(1);
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -57,10 +63,6 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    @Override
-    public void onClick(View v) {
-        Log.d("asd", "asdasd");
-    }
 
     /**
      * This interface must be implemented by activities that contain this

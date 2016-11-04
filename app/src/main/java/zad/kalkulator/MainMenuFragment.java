@@ -3,7 +3,6 @@ package zad.kalkulator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,25 +25,42 @@ public class MainMenuFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         // Inflate the layout for this fragment
-        Button connectButton = (Button) view.findViewById(R.id.button);
+        Button connectButton;
+
+        connectButton = (Button) view.findViewById(R.id.linear);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //callbackListener.connectToPI();
-                Log.d("...", "DZIAL !!");
-                mListener.onFragmentInteraction(1);
+                mListener.onSwToLinear();
             }
         });
 
+        connectButton = (Button) view.findViewById(R.id.relative);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onSwToRelative();
+            }
+        });
+
+        connectButton = (Button) view.findViewById(R.id.about);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onUseAbout();
+            }
+        });
+
+        connectButton = (Button) view.findViewById(R.id.exit);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onUseExit();
+            }
+        });
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(View v) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(1);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -76,6 +92,9 @@ public class MainMenuFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int value);
+        void onSwToLinear();
+        void onSwToRelative();
+        void onUseAbout();
+        void onUseExit();
     }
 }

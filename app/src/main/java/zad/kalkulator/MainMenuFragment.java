@@ -1,19 +1,26 @@
 package zad.kalkulator;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-
+import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class MainMenuFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
+    private ListView listView;
+    private String[] cityList;
 
     public MainMenuFragment() {
         // Required empty public constructor
@@ -24,43 +31,30 @@ public class MainMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
-        // Inflate the layout for this fragment
-        Button connectButton;
 
-        connectButton = (Button) view.findViewById(R.id.linear);
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onSwToLinear();
-            }
-        });
-
-        connectButton = (Button) view.findViewById(R.id.relative);
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onSwToRelative();
-            }
-        });
-
-        connectButton = (Button) view.findViewById(R.id.about);
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onUseAbout();
-            }
-        });
-
-        connectButton = (Button) view.findViewById(R.id.exit);
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onUseExit();
-            }
-        });
+        listView = (ListView) view.findViewById(R.id.listView);
+        initResources();
+        initCityListView();
         return view;
     }
 
+    private void initResources() {
+        Resources res = getResources();
+        cityList = res.getStringArray(R.array.cityName);
+    }
+
+    protected void initCityListView() {
+        listView.setAdapter(new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                cityList));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int pos,   long id) {
+                mListener.onCitySelected(pos);
+            }
+        });
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -92,9 +86,7 @@ public class MainMenuFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onSwToLinear();
-        void onSwToRelative();
-        void onUseAbout();
-        void onUseExit();
+        void onCitySelected(int id);
+
     }
 }

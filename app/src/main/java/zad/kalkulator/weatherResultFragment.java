@@ -1,5 +1,6 @@
 package zad.kalkulator;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -19,6 +22,12 @@ public class WeatherResultFragment extends Fragment {
 
     public static final String ID_PARAM = "-1";
     private int cityId=-1;
+
+    private TextView temp;
+    private TextView name;
+    private TextView pressure;
+    private TextView country;
+    private TextView description;
 
     Handler handler;
 
@@ -38,12 +47,19 @@ public class WeatherResultFragment extends Fragment {
 
         }
         Log.d("myLog", "value passed: " +cityId);
-        Toast.makeText(getContext(),
-                "Id: " + String.valueOf(cityId),
-                Toast.LENGTH_SHORT).show();
+
+        temp = (TextView) view.findViewById(R.id.temp);
+        name = (TextView) view.findViewById(R.id.name);
+        pressure = (TextView) view.findViewById(R.id.pressure);
+        country = (TextView) view.findViewById(R.id.country);
+        description = (TextView) view.findViewById(R.id.description);
+
+        Resources res = getResources();
 
 
-        updateWeatherData("London");
+        String[] tab_names = getResources().getStringArray(R.array.cityName);
+
+        updateWeatherData(res.getStringArray(R.array.cityName)[cityId]);
         // Inflate the layout for this fragment
         return view;
     }
@@ -72,43 +88,27 @@ public class WeatherResultFragment extends Fragment {
     }
     private void renderWeather(JSONObject json){
         try {
-                    Log.d("data",json.getString("name") +
-                            ", " +
-                            json.getJSONObject("sys").getString("country"));
+            Log.d("data","renderWeather()");
 
-                    JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-                    JSONObject main = json.getJSONObject("main");
-                    Log.d("data",details.getString("description") +
-                                    "\n" + "Humidity: " + main.getString("humidity") + "%" +
-                                    "\n" + "Pressure: " + main.getString("pressure") + " hPa");
+            Log.d("data",json.getString("message"));
 
-                    Log.d("data",String.format("%.2f", main.getDouble("temp"))+ " ℃");
+            double temper =  json.getJSONArray("list").getJSONObject(0).getJSONObject("main").getDouble("temp") - 272.15;
+            Log.d("data","a" +  String.format("%.2f", temper));
 
+            temp.setText(   String.format("%.2f C", temper)  );
 
+            name.setText(  json.getJSONArray("list").getJSONObject(0).getString("name") );
 
-//            cityField.setText(json.getString("name").toUpperCase(Locale.US) +
-//                    ", " +
-//                    json.getJSONObject("sys").getString("country"));
-//
-//            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-//            JSONObject main = json.getJSONObject("main");
-//            detailsField.setText(
-//                    details.getString("description").toUpperCase(Locale.US) +
-//                            "\n" + "Humidity: " + main.getString("humidity") + "%" +
-//                            "\n" + "Pressure: " + main.getString("pressure") + " hPa");
-//
-//            currentTemperatureField.setText(
-//                    String.format("%.2f", main.getDouble("temp"))+ " ℃");
-//
-//            DateFormat df = DateFormat.getDateTimeInstance();
-//            String updatedOn = df.format(new Date(json.getLong("dt")*1000));
-//            updatedField.setText("Last update: " + updatedOn);
-//
-//            setWeatherIcon(details.getInt("id"),
-//                    json.getJSONObject("sys").getLong("sunrise") * 1000,
-//                    json.getJSONObject("sys").getLong("sunset") * 1000);
+            pressure.setText(  String.format("%.2f hPa", json.getJSONArray("list").getJSONObject(0).getJSONObject("main").getDouble("pressure")) );
+            Log.d("data","asdasdasd" );
+
+            Log.d("data","a" +  json.getJSONArray("list").getJSONObject(0).toString() );
+            country.setText( json.getJSONArray("list").getJSONObject(0).getJSONObject("sys").getString("country") );
+
+            description.setText(  json.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getString("description"));
 
         }catch(Exception e){
+            e.printStackTrace();
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
         }
     }

@@ -1,20 +1,22 @@
 package zad.kalkulator;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.system.ErrnoException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
 
-import static android.R.attr.id;
+import com.github.ybq.android.spinkit.SpinKitView;
+
+import org.json.JSONObject;
 
 
 
@@ -28,7 +30,7 @@ public class WeatherResultFragment extends Fragment {
     private TextView pressure;
     private TextView country;
     private TextView description;
-
+    View view;
     Handler handler;
 
     public WeatherResultFragment(){
@@ -39,13 +41,12 @@ public class WeatherResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_liner_cacl, container, false);
+        view = inflater.inflate(R.layout.fragment_liner_cacl, container, false);
 
         if (getArguments() != null) {
-
             cityId = getArguments().getInt(ID_PARAM);
-
         }
+
         Log.d("myLog", "value passed: " +cityId);
 
         temp = (TextView) view.findViewById(R.id.temp);
@@ -88,6 +89,10 @@ public class WeatherResultFragment extends Fragment {
     }
     private void renderWeather(JSONObject json){
         try {
+
+            SpinKitView sinKitView =  (SpinKitView) view.findViewById(R.id.spin_kit);
+            sinKitView.setVisibility(View.GONE);
+            view.findViewById(R.id.resultView).setVisibility(View.VISIBLE);
             Log.d("data","renderWeather()");
 
             Log.d("data",json.getString("message"));
@@ -114,4 +119,5 @@ public class WeatherResultFragment extends Fragment {
     }
 
 
-    }
+
+}

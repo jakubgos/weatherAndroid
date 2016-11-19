@@ -1,13 +1,34 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.github.ybq.android.spinkit.SpinKitView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorPrimaryDark" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/resultView"
+
+            >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -18,7 +39,8 @@
             android:textSize="30sp"
             android:layout_margin="20dp"
             android:text="Temp:"
-            android:layout_width="wrap_content" />
+            android:layout_width="wrap_content"
+            />
         <TextView
             android:id="@+id/temp"
             android:layout_weight="0.5"
@@ -118,7 +140,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
+</LinearLayout>
 
 
 

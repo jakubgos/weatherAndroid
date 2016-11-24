@@ -33,7 +33,14 @@ public class MainMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
         listView = (ListView) view.findViewById(R.id.listView);
+
         initResources();
+
+        CustomList adapter = new
+                CustomList(getContext(), cityList);
+        listView.setAdapter(adapter);
+
+
         initCityListView();
         return view;
     }
@@ -44,10 +51,10 @@ public class MainMenuFragment extends Fragment {
     }
 
     protected void initCityListView() {
-        listView.setAdapter(new ArrayAdapter<String>(
-                getContext(),
-                android.R.layout.simple_list_item_1,
-                cityList));
+     //   listView.setAdapter(new ArrayAdapter<String>(
+      //          getContext(),
+      //          android.R.layout.simple_list_item_1,
+      //          cityList));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int pos,   long id) {

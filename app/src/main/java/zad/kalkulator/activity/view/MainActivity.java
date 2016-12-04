@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.github.ybq.android.spinkit.SpinKitView;
 
 import zad.kalkulator.Data.NetworkImpl;
+import zad.kalkulator.Data.OkHttpImpl;
 import zad.kalkulator.MainMenuFragment;
 import zad.kalkulator.R;
 import zad.kalkulator.WeatherResultFragment;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements Mvp_inter.ViewOps
             // Create the Presenter
             MainPresenter presenter = new MainPresenter(this);
             // Create the Model
-            NetworkImpl networkImpl = new NetworkImpl();
+            OkHttpImpl networkImpl = new OkHttpImpl();
             MainModel model = new MainModel(presenter, networkImpl);
             // Set Presenter model
             presenter.setModel(model);

@@ -18,6 +18,7 @@ import com.github.ybq.android.spinkit.SpinKitView;
 
 import org.json.JSONObject;
 
+import zad.kalkulator.common.Weather;
 
 
 public class WeatherResultFragment extends Fragment {
@@ -32,11 +33,13 @@ public class WeatherResultFragment extends Fragment {
     private TextView description;
     View view;
     Handler handler;
+    private Weather weather = new Weather();
 
     public WeatherResultFragment(){
         super();
         handler = new Handler();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,69 +58,22 @@ public class WeatherResultFragment extends Fragment {
         country = (TextView) view.findViewById(R.id.country);
         description = (TextView) view.findViewById(R.id.description);
 
-        Resources res = getResources();
-
-
-        String[] tab_names = getResources().getStringArray(R.array.cityName);
-
-        updateWeatherData(res.getStringArray(R.array.cityName)[cityId]);
-        // Inflate the layout for this fragment
+        buildData();
         return view;
     }
 
-    private void updateWeatherData(final String city){
-        new Thread(){
-            public void run(){
-                final JSONObject json = RemoteFetch.getJSON(getContext(), city);
-                if(json == null){
-                    handler.post(new Runnable(){
-                        public void run(){
-                            Toast.makeText(getContext(),
-                                    "city not found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    handler.post(new Runnable(){
-                        public void run(){
-                            renderWeather(json);
-                        }
-                    });
-                }
-            }
-        }.start();
-    }
-    private void renderWeather(JSONObject json){
-        try {
+    private void buildData(){
 
-            SpinKitView sinKitView =  (SpinKitView) view.findViewById(R.id.spin_kit);
-            sinKitView.setVisibility(View.GONE);
-            view.findViewById(R.id.resultView).setVisibility(View.VISIBLE);
-            Log.d("data","renderWeather()");
 
-            Log.d("data",json.getString("message"));
-
-            double temper =  json.getJSONArray("list").getJSONObject(0).getJSONObject("main").getDouble("temp") - 272.15;
-            Log.d("data","a" +  String.format("%.2f", temper));
-
-            temp.setText(   String.format("%.2f C", temper)  );
-
-            name.setText(  json.getJSONArray("list").getJSONObject(0).getString("name") );
-
-            pressure.setText(  String.format("%.2f hPa", json.getJSONArray("list").getJSONObject(0).getJSONObject("main").getDouble("pressure")) );
-            Log.d("data","asdasdasd" );
-
-            Log.d("data","a" +  json.getJSONArray("list").getJSONObject(0).toString() );
-            country.setText( json.getJSONArray("list").getJSONObject(0).getJSONObject("sys").getString("country") );
-
-            description.setText(  json.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getString("description"));
-
-        }catch(Exception e){
-            e.printStackTrace();
-            Log.e("SimpleWeather", "One or more fields not found in the JSON data");
-        }
+            temp.setText(   weather.temp+""  );
+            name.setText(  weather.cityName );
+            pressure.setText(  weather.pressure );
+            country.setText( weather.country );
+            description.setText( weather.description);
     }
 
 
-
+    public void setObject(Weather weather) {
+    this.weather=weather;
+    }
 }

@@ -4,7 +4,15 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:orientation="vertical">
-
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/colorPrimaryDark"
+        android:visibility="gone"/>
     <ListView
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"

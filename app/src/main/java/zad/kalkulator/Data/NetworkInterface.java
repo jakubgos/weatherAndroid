@@ -1,7 +1,5 @@
 package zad.kalkulator.Data;
 
-import android.os.Bundle;
-
 import zad.kalkulator.common.Weather;
 
 /**
@@ -10,7 +8,12 @@ import zad.kalkulator.common.Weather;
 
 public interface NetworkInterface {
 
-    interface NetworkReq {
-        Weather getWeather(String city);
+    void getWeather(String city, NetworkInterfaceResult networkInterfaceResult);
+
+
+    interface NetworkInterfaceResult {
+        void onResultReady(Weather weather);
+        void onResultError(String msg);
     }
+
 }

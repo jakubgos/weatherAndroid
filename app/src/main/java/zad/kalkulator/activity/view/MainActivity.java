@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.github.ybq.android.spinkit.SpinKitView;
 
-import zad.kalkulator.Data.NetworkImpl;
 import zad.kalkulator.Data.OkHttpImpl;
 import zad.kalkulator.MainMenuFragment;
 import zad.kalkulator.R;
@@ -20,8 +18,6 @@ import zad.kalkulator.activity.Mvp_inter;
 import zad.kalkulator.activity.model.MainModel;
 import zad.kalkulator.activity.presenter.MainPresenter;
 import zad.kalkulator.common.Weather;
-
-import static android.R.attr.id;
 
 public class MainActivity extends AppCompatActivity implements Mvp_inter.ViewOps,MainMenuFragment.OnFragmentInteractionListener {
 
@@ -44,10 +40,7 @@ public class MainActivity extends AppCompatActivity implements Mvp_inter.ViewOps
             MainPresenter presenter = new MainPresenter(this);
             // Create the Model
             OkHttpImpl networkImpl = new OkHttpImpl();
-            MainModel model = new MainModel(presenter, networkImpl);
-            // Set Presenter model
-            presenter.setModel(model);
-            // Add Presenter and Model to StateMaintainer
+
            // mStateMaintainer.put(presenter);
             //mStateMaintainer.put(model);
 
@@ -110,17 +103,13 @@ public class MainActivity extends AppCompatActivity implements Mvp_inter.ViewOps
     public void loadResultFragment(Weather weather) {
         WeatherResultFragment fragment = new WeatherResultFragment();
 
-
         FragmentManager fm = getSupportFragmentManager();
-
         fragment.setObject(weather);
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
-
     }
 
     @Override

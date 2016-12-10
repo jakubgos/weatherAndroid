@@ -1,6 +1,7 @@
 package zad.kalkulator.activity.presenter;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import java.lang.ref.WeakReference;
 
@@ -10,14 +11,16 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import zad.kalkulator.Data.OkHttpImpl;
 import zad.kalkulator.R;
 import zad.kalkulator.activity.Mvp_inter;
+import zad.kalkulator.activity.model.MainModel;
 import zad.kalkulator.common.Weather;
 
 /**
  * Created by Bos on 2016-12-04.
  */
-public class MainPresenter implements Mvp_inter.PresenterOps,Mvp_inter.ModelToPresenter {
+public class MainPresenter implements Mvp_inter.PresenterOps,MainModel.ModelResult {
 
     // View reference. We use as a WeakReference
     // because the Activity could be destroyed at any time
@@ -26,12 +29,16 @@ public class MainPresenter implements Mvp_inter.PresenterOps,Mvp_inter.ModelToPr
     // Model reference
     private Mvp_inter.PresenterToModel mModel;
 
+    private Handler handler;
+
     /**
      * Presenter Constructor
      * @param view  MainActivity
      */
     public MainPresenter(Mvp_inter.ViewOps view) {
         mView = new WeakReference<>(view);
+        handler = new Handler();
+        mModel = new MainModel(new OkHttpImpl());
     }
 
 
@@ -40,16 +47,6 @@ public class MainPresenter implements Mvp_inter.PresenterOps,Mvp_inter.ModelToPr
             return mView.get();
         else
             throw new NullPointerException("View is unavailable");
-    }
-
-
-    /**
-     * Called by Activity during MVP setup. Only called once.
-     * @param model Model instance
-     */
-    public void setModel(Mvp_inter.PresenterToModel model) {
-        mModel = model;
-
     }
 
     @Override
@@ -65,37 +62,27 @@ public class MainPresenter implements Mvp_inter.PresenterOps,Mvp_inter.ModelToPr
         getView().showProgressBar();
         getView().hideListView();
 
-        Observable<Weather> fetchFromGoogle = Observable.create(new Observable.OnSubscribe<Weather>() {
-            @Override
-            public void call(Subscriber<? super Weather> subscriber) {
-                try {
-                    Weather data =  mModel.downloadWeatherData(getView().getViewResources().getStringArray(R.array.cityName)[id]);
-                    subscriber.onNext(data); // Emit the contents of the URL
-                    subscriber.onCompleted(); // Nothing more to emit
-                }catch(Exception e){
-                    subscriber.onError(e); // In case there are network errors
-                }
-            }
-        });
-
-        fetchFromGoogle
-                .subscribeOn(Schedulers.newThread()) // Create a new Thread
-                .observeOn(AndroidSchedulers.mainThread()) // Use the UI thread
-                .subscribe(new Action1<Weather>() {
-                    @Override
-                    public void call(Weather weather) {
-                        handleWeatherResult(weather);
-                    }
-                });
-            }
+        String cityName= getView().getViewResources().getStringArray(R.array.cityName)[id];
+        mModel.downloadWeatherData(cityName, this);
+    }
 
     private void handleWeatherResult(Weather weather) {
         getView().hideProgressBar();
         getView().loadResultFragment(weather);
     }
 
+
     @Override
-    public Weather returnWeatherData() {
-        return null;
+    public void onwWeatherReady(final Weather weather) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                handleWeatherResult(weather);
+            }
+        });
+    }
+
+    @Override
+    public void onDownloadError(String msg) {
     }
 }

@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import zad.kalkulator.activity.model.MainModel;
 import zad.kalkulator.common.Weather;
 
 /**
@@ -45,13 +46,7 @@ public interface Mvp_inter {
         void onCitySelected(int id);
     }
 
-    /**
-     * Required Presenter methods available to Model.
-     *      Model to Presenter
-     */
-    interface ModelToPresenter {
-        Weather returnWeatherData();
-    }
+
 
     /**
      * Operations offered to Model to communicate with Presenter
@@ -59,6 +54,6 @@ public interface Mvp_inter {
      *      Presenter to Model
      */
     interface PresenterToModel {
-        Weather downloadWeatherData(String city);
+        void downloadWeatherData(String city, MainModel.ModelResult callBack);
     }
 }

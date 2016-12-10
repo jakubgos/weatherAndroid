@@ -6,7 +6,7 @@ package zad.kalkulator.common;
 public class Weather {
 
 
-    public double temp = -1;
+    public double temp = -1.0;
     public String cityName = "";
     public String pressure= "";
     public String country= "";
